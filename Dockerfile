@@ -5,12 +5,13 @@
 
 # 0.0.1 : initial file base from liferay 6.1"
 
-FROM snasello/docker-debian-java6
+FROM openjdk:6
 
 MAINTAINER Samuel Nasello <samuel.nasello@elosi.com>
 
+RUN apt-get -y update
 # install liferay
-RUN apt-get install -y unzip \
+RUN apt-get install -y curl unzip \
 	&& curl -O -s -k -L -C - http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/6.1.1%20GA2/liferay-portal-tomcat-6.1.1-ce-ga2-20120731132656558.zip \
 	&& unzip liferay-portal-tomcat-6.1.1-ce-ga2-20120731132656558.zip -d /opt \
 	&& rm liferay-portal-tomcat-6.1.1-ce-ga2-20120731132656558.zip \
@@ -29,8 +30,7 @@ VOLUME ["/var/liferay-home", "/opt/liferay-portal-6.1.1-ce-ga2/"]
 EXPOSE 8080
 
 # Set JAVA_HOME
-ENV JAVA_HOME /opt/java
-
+ENV JAVA_HOME /usr/lib/jvm/java-6-openjdk-amd64
 # EXEC
 CMD ["run"]
 ENTRYPOINT ["/opt/liferay-portal-6.1.1-ce-ga2/tomcat-7.0.27/bin/catalina.sh"]
